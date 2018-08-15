@@ -1,4 +1,4 @@
-import javax.inject._
+/*import javax.inject._
 import play.api._
 import play.api.http.HttpFilters
 import play.api.mvc._
@@ -30,4 +30,11 @@ class Filters @Inject() (
     if (env.mode == Mode.Dev) Seq(exampleFilter) else Seq.empty
   }
 
-}
+}*/
+
+import play.api.http.DefaultHttpFilters
+import play.filters.csrf.CSRFFilter
+import javax.inject.Inject
+
+class Filters @Inject() (csrfFilter: CSRFFilter)
+  extends DefaultHttpFilters(csrfFilter)

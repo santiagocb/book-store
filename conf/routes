@@ -3,7 +3,7 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
+GET     /                           controllers.BookController.index
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
@@ -12,4 +12,6 @@ GET     /message                    controllers.AsyncController.message
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
-GET     /libros/:title/:author/:kind controllers.BookController.addBook(title: String, author: String, kind: String)
+POST    /book                       controllers.BookController.addBook
+
+GET     /book/:title/:autor/:kind   controllers.BookController.book
