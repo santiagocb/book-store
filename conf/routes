@@ -13,6 +13,7 @@ GET     /message                    controllers.AsyncController.message
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 GET     /book                       controllers.BookController.index
+GET     /book/create                controllers.BookController.create
 GET     /book/:id                   controllers.BookController.showBook(id: Integer)
 GET     /book/edit/:id              controllers.BookController.editBook(id: Integer)
-POST    /book/create                 controllers.BookController.addBook
+POST    /book/add                   controllers.BookController.addBook

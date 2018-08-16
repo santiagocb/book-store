@@ -15,7 +15,7 @@ class BookRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(implic
   import driver.api._     //Trae el Slick DSL acá, permite definir la tabla y otros queries
 
   private class BookTableDef(tag: Tag) extends Table[Book](tag, "book") {
-    def isbn = column[Int]("isbn", O.PrimaryKey, O.AutoInc)
+    def isbn = column[String]("isbn", O.PrimaryKey)
     def title = column[String]("title")
     def author = column[String]("author")
     def kind = column[String]("kind")
@@ -29,11 +29,7 @@ class BookRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(implic
 
   private val books = TableQuery[BookTableDef]
 
-  def add(book: Book): Future[String] = {
-    dbConfig.db.run(books += book).map(res => "well done").recover {
-      case ex: Exception => ex.getCause.getMessage
-    }
-  }
+  def add(book: Book): Future[String] = dbConfig.db.run(books += book).map(_ => "well done")
 
   def getBooks: Future[Seq[Book]] = dbConfig.db.run(books.result)
 

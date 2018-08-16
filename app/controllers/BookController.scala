@@ -5,16 +5,18 @@ import javax.inject.{Inject, Singleton}
 import models.{Book, BookForm}
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc._
 
 import scala.concurrent.Future
 
 @Singleton
-class BookController @Inject()(repo: BookRepository) extends Controller {
+class BookController @Inject()(repo: BookRepository, val messagesApi: MessagesApi) extends Controller with I18nSupport{
 
   val bookForm: Form[BookForm] = Form {
     mapping(
+      "isbn" -> nonEmptyText,
       "title" -> nonEmptyText,
       "author" -> nonEmptyText,
       "kind" -> nonEmptyText
@@ -22,7 +24,11 @@ class BookController @Inject()(repo: BookRepository) extends Controller {
   }
 
   def index = Action.async {
-    request => repo.getBooks.map(books => Ok(views.html.books.index(books)))
+    _ => repo.getBooks.map(books => Ok(views.html.books.index(books)))
+  }
+
+  def create = Action {
+    implicit request => Ok(views.html.books.create(bookForm))
   }
 
   def addBook = Action.async { implicit request =>
@@ -31,8 +37,8 @@ class BookController @Inject()(repo: BookRepository) extends Controller {
         Future.successful(Ok("failed"))
       },
       book => {
-        repo.add(Book(99, book.title, book.author, book.kind))
-          .map(ok => Ok(ok))
+        repo.add(Book(book.isbn, book.title, book.author, book.kind))
+          .map(_ => Redirect(routes.BookController.index()))
       }
     )
   }

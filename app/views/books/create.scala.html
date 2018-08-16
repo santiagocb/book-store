@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+@(bookForm: Form[BookForm])(implicit request: RequestHeader, messages: Messages)
+
+@import helper._
+
+<html>
+    <head>
+        <title>BookStore</title>
+    </head>
+    <body>
+    <h1>Create a book</h1>
+    @helper.form(routes.BookController.addBook()){
+        @helper.inputText(bookForm("isbn"))
+        @helper.inputText(bookForm("title"))
+        @helper.inputText(bookForm("author"))
+        @helper.inputText(bookForm("kind"))
+        <input type="submit" value="Submit">
+    }
+    </body>
 </html>
