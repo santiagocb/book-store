@@ -21,8 +21,8 @@ class BookController @Inject()(repo: BookRepository) extends Controller {
     )(BookForm.apply)(BookForm.unapply)
   }
 
-  def index = Action { implicit request =>
-    Ok(views.html.index(bookForm))
+  def index = Action.async {
+    request => repo.getBooks.map(books => Ok(views.html.books.index(books)))
   }
 
   def addBook = Action.async { implicit request =>
@@ -37,7 +37,7 @@ class BookController @Inject()(repo: BookRepository) extends Controller {
     )
   }
 
-  def book = Action { request =>
-    request.
-  }
+  def showBook(id: Integer) = TODO
+  def editBook(id: Integer) = TODO
+
 }

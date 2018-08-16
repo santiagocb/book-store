@@ -18,7 +18,7 @@ class BookRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(implic
     def isbn = column[Int]("isbn", O.PrimaryKey, O.AutoInc)
     def title = column[String]("title")
     def author = column[String]("author")
-    def kind = column[String]("king")
+    def kind = column[String]("kind")
 
     def * = (isbn, title, author, kind) <> ((Book.apply _).tupled, Book.unapply)
   }
@@ -35,6 +35,7 @@ class BookRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(implic
     }
   }
 
+  def getBooks: Future[Seq[Book]] = dbConfig.db.run(books.result)
 
 
 }
