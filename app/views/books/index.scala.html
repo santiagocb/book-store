@@ -7,7 +7,7 @@
     <body>
         <h1>All books</h1>
         @for(book <- books){
-            <a href="#">@book.title</a>
+            <a href="/book/@book.isbn">@book.title</a>
             <p>@book.isbn</p>
             <p>Author: @book.author</p>
             <p>Kind: @book.kind</p>

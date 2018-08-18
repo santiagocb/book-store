@@ -33,17 +33,19 @@ class BookController @Inject()(repo: BookRepository, val messagesApi: MessagesAp
 
   def addBook = Action.async { implicit request =>
     bookForm.bindFromRequest.fold(
-      _ => {
-        Future.successful(Ok("failed"))
-      },
-      book => {
-        repo.add(Book(book.isbn, book.title, book.author, book.kind))
-          .map(_ => Redirect(routes.BookController.index()))
-      }
+      _ => Future.successful(InternalServerError("failed")),
+      book => repo.add(Book(book.isbn, book.title, book.author, book.kind)).map(_ => Redirect(routes.BookController.index()))
     )
   }
 
-  def showBook(id: Integer) = TODO
-  def editBook(id: Integer) = TODO
+  def searchBook(isbn: String) = Action.async { _ =>
+    repo.searchBook(isbn).flatMap(opt => Future(
+      opt.fold
+        {NotFound("no se encontró")}
+        {book => Ok(views.html.books.bookdetails(book))}
+    ))
+  }
+
+  def editBook(isbn: String) = TODO
 
 }
