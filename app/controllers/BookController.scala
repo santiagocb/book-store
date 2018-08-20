@@ -61,4 +61,8 @@ class BookController @Inject()(repo: BookRepository, val messagesApi: MessagesAp
     )
   }
 
+  def deleteBook(isbn: String) = Action.async { _ =>
+    repo.deleteBook(isbn).map(_ => Redirect(routes.BookController.index()))
+  }
+
 }

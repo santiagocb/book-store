@@ -38,9 +38,6 @@ class BookRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(implic
 
   def editBook(isbn: String, newBook: Book): Future[Int] =
     dbConfig.db.run(books.filter(_.isbn === isbn).update(newBook))
-    //dbConfig.db.run(books.filter(_.isbn === isbn).result.headOption.map(_ => newBook))
 
+  def deleteBook(isbn: String) = dbConfig.db.run(books.filter(_.isbn === isbn).delete)
 }
-
-
-//val books = TableQuery[BookT]
