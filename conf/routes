@@ -15,5 +15,6 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET     /book                       controllers.BookController.index
 GET     /book/create                controllers.BookController.create
 GET     /book/:isbn                 controllers.BookController.searchBook(isbn: String)
-GET     /book/edit/:isbn            controllers.BookController.editBook(isbn: String)
+GET     /book/edit/:isbn            controllers.BookController.edit(isbn: String)
 POST    /book/add                   controllers.BookController.addBook
+PUT     /book/edit/ok               controllers.BookController.updateBook(isbn: String)

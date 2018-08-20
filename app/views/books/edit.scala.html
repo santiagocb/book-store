@@ -1,0 +1,19 @@
+@(bookForm: Form[BookForm], book: Book)(implicit request: RequestHeader, messages: Messages)
+
+@import helper._
+
+<html>
+    <head>
+        <title>BookStore</title>
+    </head>
+    <body>
+        <h1>Edit a book</h1>
+        @helper.form(routes.BookController.updateBook(book.isbn)){
+        @helper.inputText(bookForm("isbn"), 'placeholder -> book.isbn)
+        @helper.inputText(bookForm("title"), 'placeholder -> book.title)
+        @helper.inputText(bookForm("author"), 'placeholder -> book.author)
+        @helper.inputText(bookForm("kind"), 'placeholder -> book.kind)
+        <input type="submit" value="Submit">
+        }
+    </body>
+</html>

@@ -36,6 +36,9 @@ class BookRepository @Inject() (dbConfigProvider: DatabaseConfigProvider)(implic
   def searchBook(isbn: String): Future[Option[Book]] =
     dbConfig.db.run(books.filter(book => book.isbn === isbn).result.headOption)
 
+  def editBook(isbn: String, newBook: Book): Future[Int] =
+    dbConfig.db.run(books.filter(_.isbn === isbn).update(newBook))
+    //dbConfig.db.run(books.filter(_.isbn === isbn).result.headOption.map(_ => newBook))
 
 }
 

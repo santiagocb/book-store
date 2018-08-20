@@ -46,6 +46,19 @@ class BookController @Inject()(repo: BookRepository, val messagesApi: MessagesAp
     ))
   }
 
-  def editBook(isbn: String) = TODO
+  def edit(isbn: String) = Action.async { implicit request =>
+    repo.searchBook(isbn).flatMap(opt => Future(
+      opt.fold
+      {NotFound("no se encontró")}
+      {book => Ok(views.html.books.edit(bookForm, book))}
+    ))
+  }
+
+  def updateBook(isbn: String) = Action.async { implicit request =>
+    bookForm.bindFromRequest.fold(
+      _ => Future.successful(InternalServerError("failed")),
+      book => repo.editBook(isbn, Book(book.isbn, book.title, book.author, book.kind)).map(_ => Redirect(routes.BookController.index()))
+    )
+  }
 
 }
